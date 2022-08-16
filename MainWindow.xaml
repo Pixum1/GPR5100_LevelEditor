@@ -21,6 +21,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
 
             <WrapPanel Grid.Row="0">
@@ -36,6 +37,7 @@
                 <Rectangle x:Name="Rect_SelectedTile" Width="100" Height="100" Fill="AntiqueWhite"/>
                 <Button x:Name="Btn_ClearMap" Width="100" Height="100" Content="Clear" Click="OnClick_ClearMap"/>
                 <Button x:Name="Btn_SaveMap" Width="100" Height="100"  Content="Save" Click="OnClick_SaveMap"/>
+                <Button x:Name="Btn_LoadMap" Width="100" Height="100"  Content="Load" Click="OnClick_LoadMap"/>
             </WrapPanel>
         </Grid>
 

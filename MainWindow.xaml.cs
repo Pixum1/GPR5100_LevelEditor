@@ -135,6 +135,79 @@ namespace GPR5100_LevelEditor
                 WrapPanel_Sprites.Children.Add(rect);
             }
         }
+        private void LoadXMLMap()
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+
+            ofd.Filter = "XML-Files|*.xml";
+
+            if (ofd.ShowDialog() == true)
+            {
+                try
+                {
+                    ApplyXMLData(ofd.FileName);
+
+                    FillMapWithData();
+                }
+                catch (Exception _e)
+                {
+                    MessageBox.Show(_e.Message);
+                }
+            }
+        }
+
+        private void FillMapWithData()
+        {
+            for (int i = 0; i < WrapPanel_Map.Children.Count; i++)
+            {
+                Rectangle rect = (Rectangle)WrapPanel_Map.Children[i];
+
+                ImageBrush imgBrush = new ImageBrush();
+                if (map[i] == -1)
+                    rect.Fill = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+                else
+                {
+                    imgBrush.ImageSource = tileList[map[i]];
+
+                    rect.Fill = imgBrush;
+                }
+            }
+        }
+
+        private void ApplyXMLData(string _path)
+        {
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(_path);
+
+                if (doc == null) return;
+
+                // Get the saved tilesheetPath from the XML Document
+                tileSheetPath = doc.DocumentElement.ChildNodes[1].InnerText;
+
+                // Get the slicedTileWidht and Height from the XML Document
+                slicedTileHeight = Int32.Parse(doc.DocumentElement.ChildNodes[2].InnerText);
+                slicedTileWidth = Int32.Parse(doc.DocumentElement.ChildNodes[3].InnerText);
+
+                // Update UI Textbox for Slice width and height
+                Txt_SliceTileHeight.Text = slicedTileHeight.ToString();
+                Txt_SliceTileWidth.Text = slicedTileWidth.ToString();
+
+                SliceTilesheet();
+                DisplayTileList();
+
+                // Get Map data from the XML Document
+                for (int i = 0; i < doc.DocumentElement.ChildNodes[0].ChildNodes.Count; i++)
+                {
+                    map[i] = Int32.Parse(doc.DocumentElement.ChildNodes[0].ChildNodes[i].InnerText);
+                }
+            }
+            catch (Exception _e)
+            {
+                MessageBox.Show(_e.Message);
+            }
+        }
 
         private void OnClick_SelectTilesheet(object sender, RoutedEventArgs e)
         {
@@ -143,6 +216,39 @@ namespace GPR5100_LevelEditor
         private void OnClick_SliceTilesheet(object sender, RoutedEventArgs e)
         {
             SliceTilesheetFile();
+        }
+        private void OnClick_ClearMap(object sender, RoutedEventArgs e)
+        {
+            FillMapCanvas();
+        }
+        private void OnClick_SaveMap(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+
+            sfd.Filter = "XML-File|*.xml";
+
+            if (sfd.ShowDialog() == true)
+            {
+                MapSave mapSave = new MapSave(map, tileSheetPath, slicedTileHeight, slicedTileWidth);
+
+                XmlSerializer serializer = new XmlSerializer(mapSave.GetType());
+
+                try
+                {
+                    using (FileStream fs = new FileStream(sfd.FileName, FileMode.Create, FileAccess.Write))
+                    {
+                        serializer.Serialize(fs, mapSave);
+                    }
+                }
+                catch (Exception _e)
+                {
+                    MessageBox.Show(_e.Message);
+                }
+            }
+        }
+        private void OnClick_LoadMap(object sender, RoutedEventArgs e)
+        {
+            LoadXMLMap();
         }
         private void LMBDown_StackSprites(object sender, MouseButtonEventArgs e)
         {
@@ -191,36 +297,6 @@ namespace GPR5100_LevelEditor
                 }
             }
         }
-        private void OnClick_ClearMap(object sender, RoutedEventArgs e)
-        {
-            FillMapCanvas();
-        }
-        private void OnClick_SaveMap(object sender, RoutedEventArgs e)
-        {
-            SaveFileDialog saveDG = new SaveFileDialog();
 
-            saveDG.Filter = "XML-File|*.xml";
-
-            if (saveDG.ShowDialog() == true)
-            {
-                MapSave mapSave = new MapSave(map, tileSheetPath, slicedTileHeight, slicedTileWidth);
-
-                XmlSerializer serializer = new XmlSerializer(mapSave.GetType());
-
-                try
-                {
-                    string path = saveDG.FileName;
-
-                    using (FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write))
-                    {
-                        serializer.Serialize(fs, mapSave);
-                    }
-                }
-                catch (Exception _e)
-                {
-                    MessageBox.Show(_e.Message);
-                }
-            }
-        }
     }
 }

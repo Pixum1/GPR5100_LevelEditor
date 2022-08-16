@@ -19,3 +19,24 @@ C:\GamesPrograming\GPR5100_LevelEditor\obj\Debug\net6.0-windows\refint\GPR5100_L
 C:\GamesPrograming\GPR5100_LevelEditor\obj\Debug\net6.0-windows\GPR5100_LevelEditor.pdb
 C:\GamesPrograming\GPR5100_LevelEditor\obj\Debug\net6.0-windows\GPR5100_LevelEditor.genruntimeconfig.cache
 C:\GamesPrograming\GPR5100_LevelEditor\obj\Debug\net6.0-windows\ref\GPR5100_LevelEditor.dll
+D:\Game Making\GPR5100_LevelEditor\bin\Debug\net6.0-windows\GPR5100_LevelEditor.exe
+D:\Game Making\GPR5100_LevelEditor\bin\Debug\net6.0-windows\GPR5100_LevelEditor.deps.json
+D:\Game Making\GPR5100_LevelEditor\bin\Debug\net6.0-windows\GPR5100_LevelEditor.runtimeconfig.json
+D:\Game Making\GPR5100_LevelEditor\bin\Debug\net6.0-windows\GPR5100_LevelEditor.dll
+D:\Game Making\GPR5100_LevelEditor\bin\Debug\net6.0-windows\ref\GPR5100_LevelEditor.dll
+D:\Game Making\GPR5100_LevelEditor\bin\Debug\net6.0-windows\GPR5100_LevelEditor.pdb
+D:\Game Making\GPR5100_LevelEditor\obj\Debug\net6.0-windows\GPR5100_LevelEditor.csproj.AssemblyReference.cache
+D:\Game Making\GPR5100_LevelEditor\obj\Debug\net6.0-windows\MainWindow.g.cs
+D:\Game Making\GPR5100_LevelEditor\obj\Debug\net6.0-windows\App.g.cs
+D:\Game Making\GPR5100_LevelEditor\obj\Debug\net6.0-windows\GPR5100_LevelEditor_MarkupCompile.cache
+D:\Game Making\GPR5100_LevelEditor\obj\Debug\net6.0-windows\GPR5100_LevelEditor_MarkupCompile.lref
+D:\Game Making\GPR5100_LevelEditor\obj\Debug\net6.0-windows\MainWindow.baml
+D:\Game Making\GPR5100_LevelEditor\obj\Debug\net6.0-windows\GPR5100_LevelEditor.g.resources
+D:\Game Making\GPR5100_LevelEditor\obj\Debug\net6.0-windows\GPR5100_LevelEditor.GeneratedMSBuildEditorConfig.editorconfig
+D:\Game Making\GPR5100_LevelEditor\obj\Debug\net6.0-windows\GPR5100_LevelEditor.AssemblyInfoInputs.cache
+D:\Game Making\GPR5100_LevelEditor\obj\Debug\net6.0-windows\GPR5100_LevelEditor.AssemblyInfo.cs
+D:\Game Making\GPR5100_LevelEditor\obj\Debug\net6.0-windows\GPR5100_LevelEditor.csproj.CoreCompileInputs.cache
+D:\Game Making\GPR5100_LevelEditor\obj\Debug\net6.0-windows\GPR5100_LevelEditor.dll
+D:\Game Making\GPR5100_LevelEditor\obj\Debug\net6.0-windows\ref\GPR5100_LevelEditor.dll
+D:\Game Making\GPR5100_LevelEditor\obj\Debug\net6.0-windows\GPR5100_LevelEditor.pdb
+D:\Game Making\GPR5100_LevelEditor\obj\Debug\net6.0-windows\GPR5100_LevelEditor.genruntimeconfig.cache
