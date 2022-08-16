@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "GPR5100_LevelEditor/1.0.0": {
+        "runtime": {
+          "GPR5100_LevelEditor.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "GPR5100_LevelEditor/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
