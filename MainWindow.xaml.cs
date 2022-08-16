@@ -26,8 +26,8 @@ namespace GPR5100_LevelEditor
     {
         private string tileSheetPath;
 
-        private int slicedTileWidth;
-        private int slicedTileHeight;
+        private int slicedTileWidth = 16;
+        private int slicedTileHeight = 16;
 
         private BitmapImage tileSheetBitmap;
 
@@ -40,6 +40,8 @@ namespace GPR5100_LevelEditor
 
         private int[] map;
 
+        private int MapTileSize = 25;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -50,10 +52,9 @@ namespace GPR5100_LevelEditor
         {
             WrapPanel_Map.Children.Clear();
 
-            int size = 25;
             int numOfPossibleTiles = 0;
 
-            numOfPossibleTiles = ((int)WrapPanel_Map.Height / size) * ((int)WrapPanel_Map.Width / size);
+            numOfPossibleTiles = ((int)WrapPanel_Map.Height / MapTileSize) * ((int)WrapPanel_Map.Width / MapTileSize);
 
             map = new int[numOfPossibleTiles];
 
@@ -66,8 +67,8 @@ namespace GPR5100_LevelEditor
                 rect = new Rectangle();
 
                 rect.Fill = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-                rect.Width = size;
-                rect.Height = size;
+                rect.Width = MapTileSize;
+                rect.Height = MapTileSize;
 
                 WrapPanel_Map.Children.Add(rect);
             }
@@ -155,7 +156,6 @@ namespace GPR5100_LevelEditor
                 }
             }
         }
-
         private void FillMapWithData()
         {
             for (int i = 0; i < WrapPanel_Map.Children.Count; i++)
@@ -173,7 +173,6 @@ namespace GPR5100_LevelEditor
                 }
             }
         }
-
         private void ApplyXMLData(string _path)
         {
             try
@@ -183,12 +182,18 @@ namespace GPR5100_LevelEditor
 
                 if (doc == null) return;
 
+                // Get XMLNodes
+                XmlNode mapNode = doc.DocumentElement.SelectSingleNode($"/MapSave/Map");
+                XmlNode tileSheetNode = doc.DocumentElement.SelectSingleNode("/MapSave/TileSheetPath");
+                XmlNode heightNode = doc.DocumentElement.SelectSingleNode("/MapSave/Height");
+                XmlNode widthNode = doc.DocumentElement.SelectSingleNode("/MapSave/Width");
+
                 // Get the saved tilesheetPath from the XML Document
-                tileSheetPath = doc.DocumentElement.ChildNodes[1].InnerText;
+                tileSheetPath = tileSheetNode.InnerText;
 
                 // Get the slicedTileWidht and Height from the XML Document
-                slicedTileHeight = Int32.Parse(doc.DocumentElement.ChildNodes[2].InnerText);
-                slicedTileWidth = Int32.Parse(doc.DocumentElement.ChildNodes[3].InnerText);
+                Int32.TryParse(heightNode.InnerText,out slicedTileHeight);
+                Int32.TryParse(widthNode.InnerText, out slicedTileWidth);
 
                 // Update UI Textbox for Slice width and height
                 Txt_SliceTileHeight.Text = slicedTileHeight.ToString();
@@ -198,9 +203,9 @@ namespace GPR5100_LevelEditor
                 DisplayTileList();
 
                 // Get Map data from the XML Document
-                for (int i = 0; i < doc.DocumentElement.ChildNodes[0].ChildNodes.Count; i++)
+                for (int i = 0; i < mapNode.ChildNodes.Count; i++)
                 {
-                    map[i] = Int32.Parse(doc.DocumentElement.ChildNodes[0].ChildNodes[i].InnerText);
+                    map[i] = Int32.Parse(mapNode.ChildNodes[i].InnerText);
                 }
             }
             catch (Exception _e)
@@ -209,6 +214,7 @@ namespace GPR5100_LevelEditor
             }
         }
 
+        #region WPF Events
         private void OnClick_SelectTilesheet(object sender, RoutedEventArgs e)
         {
             SelectTilesheet();
@@ -297,6 +303,6 @@ namespace GPR5100_LevelEditor
                 }
             }
         }
-
+        #endregion
     }
 }

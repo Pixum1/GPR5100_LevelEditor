@@ -14,11 +14,6 @@ namespace GPR5100_LevelEditor
         public int Height;
         public int Width;
 
-        public MapSave()
-        {
-
-        }
-
         public MapSave(int[] _map, string _path, int _height, int _width)
         {
             Map = _map;
