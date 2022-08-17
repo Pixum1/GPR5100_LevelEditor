@@ -177,42 +177,59 @@ namespace GPR5100_LevelEditor
         {
             try
             {
-                XmlDocument doc = new XmlDocument();
-                doc.Load(_path);
+                using (FileStream fs = new FileStream(_path, FileMode.Open, FileAccess.Read))
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(MapSave));
 
-                if (doc == null) return;
+                    MapSave savedMap = (MapSave)serializer.Deserialize(fs);
 
-                // Get XMLNodes
-                XmlNode mapNode = doc.DocumentElement.SelectSingleNode($"/MapSave/Map");
-                XmlNode tileSheetNode = doc.DocumentElement.SelectSingleNode("/MapSave/TileSheetPath");
-                XmlNode heightNode = doc.DocumentElement.SelectSingleNode("/MapSave/Height");
-                XmlNode widthNode = doc.DocumentElement.SelectSingleNode("/MapSave/Width");
+                    tileSheetPath = savedMap.TileSheetPath;
+                    slicedTileHeight = savedMap.Height;
+                    slicedTileWidth = savedMap.Width;
+                    map = savedMap.Map;
 
-                // Get the saved tilesheetPath from the XML Document
-                tileSheetPath = tileSheetNode.InnerText;
+                    fs.Close();
+                }
 
-                // Get the slicedTileWidht and Height from the XML Document
-                Int32.TryParse(heightNode.InnerText,out slicedTileHeight);
-                Int32.TryParse(widthNode.InnerText, out slicedTileWidth);
-
-                // Update UI Textbox for Slice width and height
                 Txt_SliceTileHeight.Text = slicedTileHeight.ToString();
                 Txt_SliceTileWidth.Text = slicedTileWidth.ToString();
 
                 SliceTilesheet();
                 DisplayTileList();
-
-                // Get Map data from the XML Document
-                for (int i = 0; i < mapNode.ChildNodes.Count; i++)
-                {
-                    map[i] = Int32.Parse(mapNode.ChildNodes[i].InnerText);
-                }
             }
             catch (Exception _e)
             {
                 MessageBox.Show(_e.Message);
             }
         }
+        private void SaveDataToXML()
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+
+            sfd.Filter = "XML-File|*.xml";
+
+            if (sfd.ShowDialog() == true)
+            {
+                MapSave mapSave = new MapSave(map, tileSheetPath, slicedTileHeight, slicedTileWidth);
+
+                XmlSerializer serializer = new XmlSerializer(typeof(MapSave));
+
+                try
+                {
+                    using (FileStream fs = new FileStream(sfd.FileName, FileMode.Create, FileAccess.Write))
+                    {
+                        serializer.Serialize(fs, mapSave);
+
+                        fs.Close();
+                    }
+                }
+                catch (Exception _e)
+                {
+                    MessageBox.Show(_e.Message);
+                }
+            }
+        }
+
 
         #region WPF Events
         private void OnClick_SelectTilesheet(object sender, RoutedEventArgs e)
@@ -229,28 +246,7 @@ namespace GPR5100_LevelEditor
         }
         private void OnClick_SaveMap(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog sfd = new SaveFileDialog();
-
-            sfd.Filter = "XML-File|*.xml";
-
-            if (sfd.ShowDialog() == true)
-            {
-                MapSave mapSave = new MapSave(map, tileSheetPath, slicedTileHeight, slicedTileWidth);
-
-                XmlSerializer serializer = new XmlSerializer(mapSave.GetType());
-
-                try
-                {
-                    using (FileStream fs = new FileStream(sfd.FileName, FileMode.Create, FileAccess.Write))
-                    {
-                        serializer.Serialize(fs, mapSave);
-                    }
-                }
-                catch (Exception _e)
-                {
-                    MessageBox.Show(_e.Message);
-                }
-            }
+            SaveDataToXML();
         }
         private void OnClick_LoadMap(object sender, RoutedEventArgs e)
         {
