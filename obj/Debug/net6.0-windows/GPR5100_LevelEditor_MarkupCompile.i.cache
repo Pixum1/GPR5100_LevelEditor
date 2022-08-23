@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\GamesPrograming\GPR5100_LevelEditor\obj\Debug\net6.0-windows\
+D:\Game Making\GPR5100_LevelEditor\obj\Debug\net6.0-windows\
 GPR5100_LevelEditor
 none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
-C:\GamesPrograming\GPR5100_LevelEditor\App.xaml
-11407045341
+D:\Game Making\GPR5100_LevelEditor\App.xaml
+31224792035
 
-61102064456
-1941905061893
-MainWindow.xaml;
+7-1401782627
+1941142463650
+MainWindow.xaml;SettingsWindow.xaml;Theme\ButtonTheme.xaml;
 
 False
 

@@ -5,42 +5,121 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GPR5100_LevelEditor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" MinHeight="450" MinWidth="800">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition MinWidth="200" Width="200"/>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="300"/>
-        </Grid.ColumnDefinitions>
+        Height="610" Width="910"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        ResizeMode="NoResize"
+        Background="Transparent"
+        Loaded="Window_Loaded">
 
-        <ScrollViewer x:Name="scrollViewer" Grid.Column="0" HorizontalAlignment="Left">
-            <WrapPanel x:Name="WrapPanel_Sprites" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" MouseLeftButtonDown="LMBDown_StackSprites"/>
-        </ScrollViewer>
-        
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+    <Border Background="#CFCFCF" 
+            CornerRadius="10">
 
-            <WrapPanel Grid.Row="0">
-                <TextBox x:Name="Txt_TilesheetPath" Width="200" Height="50"/>
-                <Button x:Name="Btn_SelectTilesheet" Content="Select Tilesheet" Width="150" Height="50" Click="OnClick_SelectTilesheet"/>
-            </WrapPanel>
-            <WrapPanel Grid.Row="1">
-                <TextBox Text="16" TextAlignment="Center" VerticalContentAlignment="Center" x:Name="Txt_SliceTileWidth" Height="50" Width="50"/>
-                <TextBox Text="16" TextAlignment="Center" VerticalContentAlignment="Center" x:Name="Txt_SliceTileHeight" Height="50" Width="50"/>
-                <Button Content="Slice Tilesheet" Width="100" Height="50" Click="OnClick_SliceTilesheet"/>
-            </WrapPanel>
-            <WrapPanel Grid.Row="2">
-                <Rectangle x:Name="Rect_SelectedTile" Width="100" Height="100" Fill="AntiqueWhite"/>
-                <Button x:Name="Btn_ClearMap" Width="100" Height="100" Content="Clear" Click="OnClick_ClearMap"/>
-                <Button x:Name="Btn_SaveMap" Width="100" Height="100"  Content="Save" Click="OnClick_SaveMap"/>
-                <Button x:Name="Btn_LoadMap" Width="100" Height="100"  Content="Load" Click="OnClick_LoadMap"/>
-            </WrapPanel>
+        <Grid Width="900" Height="600"
+              HorizontalAlignment="Stretch">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="700"/>
+            </Grid.ColumnDefinitions>
+
+            <!--#region Left Control Panel-->
+            <Grid Grid.Column="0" HorizontalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <!--Logo and Name-->
+                    <RowDefinition Height="50"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           Text="Name"/>
+
+                <StackPanel Orientation="Vertical" Grid.Row="1">
+
+                    <TextBox x:Name="Txt_TilesheetPath" 
+                             Height="50"/>
+
+                    <Button x:Name="Btn_OpenSettings"
+                            Height="50"
+                            Style="{StaticResource ButtonTheme}"
+                            Content="Settings" Click="Btn_OpenSettings_Click"/>
+
+                    <Button x:Name="Btn_SelectTilesheet" 
+                            Height="50" 
+                            Style="{StaticResource ButtonTheme}"
+                            Content="Select Tilesheet" 
+                            Click="OnClick_SelectTilesheet"/>
+
+                    <TextBox x:Name="Txt_SliceTileWidth"
+                             Height="50"
+                             Text="16"
+                             TextAlignment="Center" 
+                             VerticalContentAlignment="Center"/>
+
+                    <TextBox x:Name="Txt_SliceTileHeight"
+                             Height="50"
+                             Text="16"
+                             TextAlignment="Center" 
+                             VerticalContentAlignment="Center" />
+
+                    <Button Content="Slice Tilesheet" 
+                            Style="{StaticResource ButtonTheme}"
+                            Height="50" 
+                            Click="OnClick_SliceTilesheet"/>
+
+                    <Rectangle x:Name="Rect_SelectedTile" 
+                               Height="100" 
+                               Fill="AntiqueWhite"/>
+
+                    <Button x:Name="Btn_ClearMap" 
+                            Style="{StaticResource ButtonTheme}"
+                            Height="50" 
+                            Content="Clear" 
+                            Click="OnClick_ClearMap"/>
+
+                    <Button x:Name="Btn_SaveMap" 
+                            Style="{StaticResource ButtonTheme}"
+                            Height="50"  
+                            Content="Save" 
+                            Click="OnClick_SaveMap"/>
+
+                    <Button x:Name="Btn_LoadMap" 
+                            Style="{StaticResource ButtonTheme}"
+                            Height="50"  
+                            Content="Load" 
+                            Click="OnClick_LoadMap"/>
+                </StackPanel>
+            </Grid>
+            <!--#endregion-->
+
+            <!--#region Map & TileSheet-->
+            <Grid Grid.Column="1" HorizontalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="200"/>
+                </Grid.RowDefinitions>
+
+                <WrapPanel x:Name="WrapPanel_Map"
+                           Height="400" Width="700"
+                           Grid.Row="0"
+                           Background="#353030" 
+                           MouseLeftButtonDown="LMBDown_Map"/>
+
+                <ScrollViewer x:Name="scrollViewer"
+                              Height="200" Width="700"
+                              Grid.Row="1">
+
+                    <WrapPanel x:Name="WrapPanel_Sprites"
+                               MouseLeftButtonDown="LMBDown_StackSprites"/>
+
+                </ScrollViewer>
+
+
+            </Grid>
+            <!--#endregion-->
+
         </Grid>
 
-        <WrapPanel x:Name="WrapPanel_Map" Width="300" Height="300" Grid.Column="2" Background="Aqua" MouseLeftButtonDown="LMBDown_Map"/>
-    </Grid>
+    </Border>
 </Window>
+    

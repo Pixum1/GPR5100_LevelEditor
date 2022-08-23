@@ -24,6 +24,8 @@ namespace GPR5100_LevelEditor
     /// </summary>
     public partial class MainWindow : Window
     {
+        SettingsWindow settingsWindow;
+
         private string tileSheetPath;
 
         private int slicedTileWidth = 16;
@@ -46,6 +48,8 @@ namespace GPR5100_LevelEditor
         {
             InitializeComponent();
             FillMapCanvas();
+
+            settingsWindow = new SettingsWindow();
         }
 
         private void FillMapCanvas()
@@ -73,7 +77,7 @@ namespace GPR5100_LevelEditor
                 WrapPanel_Map.Children.Add(rect);
             }
         }
-        private void SelectTilesheet()
+        public void SelectTilesheet()
         {
             OpenFileDialog ofd = new OpenFileDialog();
 
@@ -86,7 +90,7 @@ namespace GPR5100_LevelEditor
                 Txt_TilesheetPath.Text = tileSheetPath;
             }
         }
-        private void SliceTilesheetFile()
+        public void SliceTilesheetFile()
         {
             ApplySliceSettings();
             SliceTilesheet();
@@ -300,5 +304,15 @@ namespace GPR5100_LevelEditor
             }
         }
         #endregion
+
+        private void Btn_OpenSettings_Click(object sender, RoutedEventArgs e)
+        {
+            settingsWindow.Show();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            settingsWindow.Owner = this;
+        }
     }
 }
