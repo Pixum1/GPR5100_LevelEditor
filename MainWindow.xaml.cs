@@ -31,6 +31,9 @@ namespace GPR5100_LevelEditor
         private int slicedTileWidth = 16;
         private int slicedTileHeight = 16;
 
+        public int SlicedTileWidth { get { return slicedTileWidth; } set { slicedTileWidth = value; } }
+        public int SlicedTileHeight { get { return slicedTileHeight; } set { slicedTileHeight = value; } }
+
         private BitmapImage tileSheetBitmap;
 
         private int inspectorTileSize = 100;
@@ -87,19 +90,12 @@ namespace GPR5100_LevelEditor
             if (ofd.ShowDialog() == true)
             {
                 tileSheetPath = ofd.FileName;
-                Txt_TilesheetPath.Text = tileSheetPath;
             }
         }
         public void SliceTilesheetFile()
         {
-            ApplySliceSettings();
             SliceTilesheet();
             DisplayTileList();
-        }
-        private void ApplySliceSettings()
-        {
-            Int32.TryParse(Txt_SliceTileHeight.Text, out slicedTileHeight);
-            Int32.TryParse(Txt_SliceTileWidth.Text, out slicedTileWidth);
         }
         private void SliceTilesheet()
         {
@@ -194,10 +190,6 @@ namespace GPR5100_LevelEditor
 
                     fs.Close();
                 }
-
-                Txt_SliceTileHeight.Text = slicedTileHeight.ToString();
-                Txt_SliceTileWidth.Text = slicedTileWidth.ToString();
-
                 SliceTilesheet();
                 DisplayTileList();
             }
@@ -303,16 +295,14 @@ namespace GPR5100_LevelEditor
                 }
             }
         }
-        #endregion
-
-        private void Btn_OpenSettings_Click(object sender, RoutedEventArgs e)
+        private void OnClick_OpenSettings(object sender, RoutedEventArgs e)
         {
             settingsWindow.Show();
         }
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             settingsWindow.Owner = this;
         }
+        #endregion
     }
 }

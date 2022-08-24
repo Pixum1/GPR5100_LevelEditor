@@ -36,36 +36,10 @@
 
                 <StackPanel Orientation="Vertical" Grid.Row="1">
 
-                    <TextBox x:Name="Txt_TilesheetPath" 
-                             Height="50"/>
-
                     <Button x:Name="Btn_OpenSettings"
                             Height="50"
                             Style="{StaticResource ButtonTheme}"
-                            Content="Settings" Click="Btn_OpenSettings_Click"/>
-
-                    <Button x:Name="Btn_SelectTilesheet" 
-                            Height="50" 
-                            Style="{StaticResource ButtonTheme}"
-                            Content="Select Tilesheet" 
-                            Click="OnClick_SelectTilesheet"/>
-
-                    <TextBox x:Name="Txt_SliceTileWidth"
-                             Height="50"
-                             Text="16"
-                             TextAlignment="Center" 
-                             VerticalContentAlignment="Center"/>
-
-                    <TextBox x:Name="Txt_SliceTileHeight"
-                             Height="50"
-                             Text="16"
-                             TextAlignment="Center" 
-                             VerticalContentAlignment="Center" />
-
-                    <Button Content="Slice Tilesheet" 
-                            Style="{StaticResource ButtonTheme}"
-                            Height="50" 
-                            Click="OnClick_SliceTilesheet"/>
+                            Content="Settings" Click="OnClick_OpenSettings"/>
 
                     <Rectangle x:Name="Rect_SelectedTile" 
                                Height="100" 

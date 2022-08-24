@@ -29,21 +29,54 @@ namespace GPR5100_LevelEditor
 
         private void OnClick_SelectTilesheet(object sender, RoutedEventArgs e)
         {
-            ((MainWindow)this.Owner).SelectTilesheet();
+            try
+            {
+                ((MainWindow)this.Owner).SelectTilesheet();
+            }
+            catch (Exception _e)
+            {
+                MessageBox.Show(_e.Message);
+            }
         }
 
-        public void SelectTilesheet()
+        private void OnClick_SliceTilesheet(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-
-            ofd.DefaultExt = ".png";
-            ofd.Filter = "PNG Files|*.png;*.jpg";
-
-            if (ofd.ShowDialog() == true)
+            try
             {
-                tileSheetPath = ofd.FileName;
-                Txt_TilesheetPath.Text = tileSheetPath;
+                if (Btn_SyncDimensions.IsChecked == true)
+                {
+                    ((MainWindow)this.Owner).SlicedTileHeight = Int32.Parse(Txt_SliceTileHeight.Text);
+                    ((MainWindow)this.Owner).SlicedTileWidth = Int32.Parse(Txt_SliceTileHeight.Text);
+                }
+                else
+                {
+                    ((MainWindow)this.Owner).SlicedTileHeight = Int32.Parse(Txt_SliceTileHeight.Text);
+                    ((MainWindow)this.Owner).SlicedTileWidth = Int32.Parse(Txt_SliceTileHeight.Text);
+                }
+
+                ((MainWindow)this.Owner).SliceTilesheetFile();
+
+                this.Hide();
             }
+            catch (Exception _e)
+            {
+                MessageBox.Show(_e.Message);
+            }
+        }
+
+        private void Btn_SyncDimensions_Click(object sender, RoutedEventArgs e)
+        {
+            Txt_SliceTileHeight.IsEnabled = !Txt_SliceTileHeight.IsEnabled;
+
+            if (Btn_SyncDimensions.IsChecked == true)
+                Txt_SliceTileHeight.Text = Txt_SliceTileWidth.Text;
+        }
+        private void Txt_SliceTileWidth_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (Btn_SyncDimensions == null) return;
+
+            if (Btn_SyncDimensions.IsChecked == true)
+                Txt_SliceTileHeight.Text = Txt_SliceTileWidth.Text;
         }
     }
 }
