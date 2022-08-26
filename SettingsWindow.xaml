@@ -9,23 +9,31 @@
         Height="200" Width="300"
         WindowStyle="None"
         ResizeMode="NoResize"
+        Closed="Window_Closed"
         Background="Transparent"
         AllowsTransparency="True">
 
     <Border Background="#CFCFCF"
-            CornerRadius="10">
+            CornerRadius="10"
+            MouseDown="Border_MouseDown">
 
         <Grid Width="290" Height="190">
 
             <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <WrapPanel Grid.Row="0">
-
-                <TextBox x:Name="Txt_TilesheetPath"
-                         Height="50" Width="200"/>
+            <Grid Grid.Row="0">
+                <Button x:Name="Btn_CloseWindow"
+                        Width="40"
+                        Content="Close"
+                        HorizontalAlignment="Right"
+                        Click="Btn_CloseWindow_Click"/>
+            </Grid>
+            
+            <WrapPanel Grid.Row="1">
 
                 <Button x:Name="Btn_SelectTilesheet"
                         Height="50"
@@ -35,7 +43,7 @@
 
             </WrapPanel>
 
-            <WrapPanel Grid.Row="1">
+            <WrapPanel Grid.Row="2">
 
                 <TextBox x:Name="Txt_SliceTileWidth"
                          Height="50" Width="50"

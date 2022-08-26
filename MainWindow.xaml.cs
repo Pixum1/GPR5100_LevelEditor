@@ -24,9 +24,11 @@ namespace GPR5100_LevelEditor
     /// </summary>
     public partial class MainWindow : Window
     {
-        SettingsWindow settingsWindow;
+        public SettingsWindow settingsWindow;
 
         private string tileSheetPath;
+
+        private bool eraseModeActive = false;
 
         private int slicedTileWidth = 16;
         private int slicedTileHeight = 16;
@@ -36,32 +38,29 @@ namespace GPR5100_LevelEditor
 
         private BitmapImage tileSheetBitmap;
 
-        private int inspectorTileSize = 100;
-
         private List<CroppedBitmap> tileList = new List<CroppedBitmap>();
         private ImageBrush currSelectedTile;
 
         private int currSelectedTileIndex;
 
+        private int inspectorTileSize = 25;
+
         private int[] map;
-
-        private int MapTileSize = 25;
-
         public MainWindow()
         {
             InitializeComponent();
             FillMapCanvas();
-
-            settingsWindow = new SettingsWindow();
         }
 
+        #region Functions
         private void FillMapCanvas()
         {
             WrapPanel_Map.Children.Clear();
 
             int numOfPossibleTiles = 0;
 
-            numOfPossibleTiles = ((int)WrapPanel_Map.Height / MapTileSize) * ((int)WrapPanel_Map.Width / MapTileSize);
+            //Calculate the maximum number of tiles that fit in the inspector
+            numOfPossibleTiles = ((int)WrapPanel_Map.Height / inspectorTileSize) * ((int)WrapPanel_Map.Width / inspectorTileSize);
 
             map = new int[numOfPossibleTiles];
 
@@ -71,25 +70,34 @@ namespace GPR5100_LevelEditor
             {
                 map[i] = -1;
 
+                // Create a new Rectangle for each tile
                 rect = new Rectangle();
 
+                // Fill each tile with a black color and adjust its size
                 rect.Fill = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-                rect.Width = MapTileSize;
-                rect.Height = MapTileSize;
+                rect.Width = inspectorTileSize;
+                rect.Height = inspectorTileSize;
 
                 WrapPanel_Map.Children.Add(rect);
             }
         }
         public void SelectTilesheet()
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-
-            ofd.DefaultExt = ".png";
-            ofd.Filter = "PNG Files|*.png;*.jpg";
-
-            if (ofd.ShowDialog() == true)
+            try
             {
-                tileSheetPath = ofd.FileName;
+                OpenFileDialog ofd = new OpenFileDialog();
+
+                ofd.DefaultExt = ".png";
+                ofd.Filter = "PNG Files|*.png;*.jpg";
+
+                if (ofd.ShowDialog() == true)
+                {
+                    tileSheetPath = ofd.FileName;
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("There was an error while selecting the tilesheet. Make sure to only use .png and .jpg files");
             }
         }
         public void SliceTilesheetFile()
@@ -124,8 +132,8 @@ namespace GPR5100_LevelEditor
             for (int i = 0; i < tileList.Count; i++)
             {
                 Rectangle rect = new Rectangle();
-                rect.Width = inspectorTileSize;
-                rect.Height = inspectorTileSize;
+                rect.Width = Sld_TileSize.Value;
+                rect.Height = Sld_TileSize.Value;
 
                 ImageBrush imgBrush = new ImageBrush();
 
@@ -135,25 +143,30 @@ namespace GPR5100_LevelEditor
 
                 WrapPanel_Sprites.Children.Add(rect);
             }
+
+            currSelectedTile = new ImageBrush(tileList[0]);
+            currSelectedTileIndex = 0;
+            Rect_SelectedTile.Fill = currSelectedTile;
         }
         private void LoadXMLMap()
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-
-            ofd.Filter = "XML-Files|*.xml";
-
-            if (ofd.ShowDialog() == true)
+            try
             {
-                try
+                OpenFileDialog ofd = new OpenFileDialog();
+
+                ofd.Filter = "XML-Files|*.xml";
+
+                if (ofd.ShowDialog() == true)
                 {
+
                     ApplyXMLData(ofd.FileName);
 
                     FillMapWithData();
                 }
-                catch (Exception _e)
-                {
-                    MessageBox.Show(_e.Message);
-                }
+            }
+            catch (Exception _e)
+            {
+                MessageBox.Show("There was an error while trying to load the data! Make sure to only use XML files!");
             }
         }
         private void FillMapWithData()
@@ -163,8 +176,10 @@ namespace GPR5100_LevelEditor
                 Rectangle rect = (Rectangle)WrapPanel_Map.Children[i];
 
                 ImageBrush imgBrush = new ImageBrush();
+
                 if (map[i] == -1)
                     rect.Fill = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+
                 else
                 {
                     imgBrush.ImageSource = tileList[map[i]];
@@ -175,43 +190,36 @@ namespace GPR5100_LevelEditor
         }
         private void ApplyXMLData(string _path)
         {
-            try
+            using (FileStream fs = new FileStream(_path, FileMode.Open, FileAccess.Read))
             {
-                using (FileStream fs = new FileStream(_path, FileMode.Open, FileAccess.Read))
-                {
-                    XmlSerializer serializer = new XmlSerializer(typeof(MapSave));
+                XmlSerializer serializer = new XmlSerializer(typeof(MapSave));
 
-                    MapSave savedMap = (MapSave)serializer.Deserialize(fs);
+                MapSave savedMap = (MapSave)serializer.Deserialize(fs);
 
-                    tileSheetPath = savedMap.TileSheetPath;
-                    slicedTileHeight = savedMap.Height;
-                    slicedTileWidth = savedMap.Width;
-                    map = savedMap.Map;
+                tileSheetPath = savedMap.TileSheetPath;
+                slicedTileHeight = savedMap.Height;
+                slicedTileWidth = savedMap.Width;
+                map = savedMap.Map;
 
-                    fs.Close();
-                }
-                SliceTilesheet();
-                DisplayTileList();
+                fs.Close();
             }
-            catch (Exception _e)
-            {
-                MessageBox.Show(_e.Message);
-            }
+            SliceTilesheet();
+            DisplayTileList();
         }
         private void SaveDataToXML()
         {
-            SaveFileDialog sfd = new SaveFileDialog();
-
-            sfd.Filter = "XML-File|*.xml";
-
-            if (sfd.ShowDialog() == true)
+            try
             {
-                MapSave mapSave = new MapSave(map, tileSheetPath, slicedTileHeight, slicedTileWidth);
+                SaveFileDialog sfd = new SaveFileDialog();
 
-                XmlSerializer serializer = new XmlSerializer(typeof(MapSave));
+                sfd.Filter = "XML-File|*.xml";
 
-                try
+                if (sfd.ShowDialog() == true)
                 {
+                    MapSave mapSave = new MapSave(map, tileSheetPath, slicedTileHeight, slicedTileWidth);
+
+                    XmlSerializer serializer = new XmlSerializer(typeof(MapSave));
+
                     using (FileStream fs = new FileStream(sfd.FileName, FileMode.Create, FileAccess.Write))
                     {
                         serializer.Serialize(fs, mapSave);
@@ -219,13 +227,70 @@ namespace GPR5100_LevelEditor
                         fs.Close();
                     }
                 }
-                catch (Exception _e)
-                {
-                    MessageBox.Show(_e.Message);
-                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("There was an error while trying to save your data!");
+            }
+
+        }
+        private void OpenNewSettingsWindow()
+        {
+            if (settingsWindow != null) return;
+
+            try
+            {
+                settingsWindow = new SettingsWindow();
+                settingsWindow.Owner = this;
+                settingsWindow.Show();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("There was an error while opening the settings window!");
             }
         }
+        private void ResizeSpritesPanel()
+        {
+            if (WrapPanel_Sprites == null) return;
 
+            for (int i = 0; i < WrapPanel_Sprites.Children.Count; i++)
+            {
+                Rectangle rect = (Rectangle)WrapPanel_Sprites.Children[i];
+
+                rect.Width = Sld_TileSize.Value;
+                rect.Height = Sld_TileSize.Value;
+            }
+        }
+        private void DrawOnMap(Point point)
+        {
+            HitTestResult result = VisualTreeHelper.HitTest(WrapPanel_Map, point);
+
+            if (result == null) return;
+
+            try
+            {
+                Rectangle rect = (Rectangle)result.VisualHit;
+
+                if (eraseModeActive)
+                {
+                    map[WrapPanel_Map.Children.IndexOf(rect)] = -1;
+
+                    rect.Fill = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+                }
+                else
+                {
+                    map[WrapPanel_Map.Children.IndexOf(rect)] = currSelectedTileIndex;
+
+                    rect.Fill = currSelectedTile;
+                }
+
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("There was an error while drawing on the map.");
+            }
+        }
+        #endregion
 
         #region WPF Events
         private void OnClick_SelectTilesheet(object sender, RoutedEventArgs e)
@@ -238,6 +303,8 @@ namespace GPR5100_LevelEditor
         }
         private void OnClick_ClearMap(object sender, RoutedEventArgs e)
         {
+            if (MessageBox.Show("Do you really want to clear the map?", "Clear!", MessageBoxButton.YesNo) == MessageBoxResult.No) return;
+
             FillMapCanvas();
         }
         private void OnClick_SaveMap(object sender, RoutedEventArgs e)
@@ -246,12 +313,19 @@ namespace GPR5100_LevelEditor
         }
         private void OnClick_LoadMap(object sender, RoutedEventArgs e)
         {
-            LoadXMLMap();
+            if (MessageBox.Show("Do you want to load without saving?", "Load!", MessageBoxButton.YesNo) == MessageBoxResult.No)
+                SaveDataToXML();
+            else
+                LoadXMLMap();
         }
         private void LMBDown_StackSprites(object sender, MouseButtonEventArgs e)
         {
             Point pointOnCanvas = e.GetPosition(WrapPanel_Sprites);
 
+            SelectSprite(pointOnCanvas);
+        }
+        private void SelectSprite(Point pointOnCanvas)
+        {
             HitTestResult result = VisualTreeHelper.HitTest(WrapPanel_Sprites, pointOnCanvas);
 
             if (result != null)
@@ -275,33 +349,37 @@ namespace GPR5100_LevelEditor
         }
         private void LMBDown_Map(object sender, MouseButtonEventArgs e)
         {
+            if (currSelectedTile == null) return;
+
             Point point = e.GetPosition((WrapPanel_Map));
-
-            HitTestResult result = VisualTreeHelper.HitTest(WrapPanel_Map, point);
-
-            if (result != null)
-            {
-                try
-                {
-                    Rectangle rect = (Rectangle)result.VisualHit;
-
-                    map[WrapPanel_Map.Children.IndexOf(rect)] = currSelectedTileIndex;
-
-                    rect.Fill = currSelectedTile;
-                }
-                catch (Exception _e)
-                {
-                    MessageBox.Show(_e.Message);
-                }
-            }
+            DrawOnMap(point);
         }
         private void OnClick_OpenSettings(object sender, RoutedEventArgs e)
         {
-            settingsWindow.Show();
+            OpenNewSettingsWindow();
         }
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void Sld_TileSize_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            settingsWindow.Owner = this;
+            ResizeSpritesPanel();
+        }
+        private void OnClick_Erase(object sender, RoutedEventArgs e)
+        {
+            eraseModeActive = !eraseModeActive;
+        }
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (MessageBox.Show("Do you want to exit without saving?", "Exit!", MessageBoxButton.YesNo) == MessageBoxResult.Yes) return;
+
+            SaveDataToXML();
+        }
+        private void LMBDown_MoveWindow(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+                this.DragMove();
+        }
+        private void OnCLick_CloseApplication(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
         #endregion
     }

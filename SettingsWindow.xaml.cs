@@ -20,13 +20,10 @@ namespace GPR5100_LevelEditor
     /// </summary>
     public partial class SettingsWindow : Window
     {
-        private string tileSheetPath;
-
         public SettingsWindow()
         {
             InitializeComponent();
         }
-
         private void OnClick_SelectTilesheet(object sender, RoutedEventArgs e)
         {
             try
@@ -56,7 +53,7 @@ namespace GPR5100_LevelEditor
 
                 ((MainWindow)this.Owner).SliceTilesheetFile();
 
-                this.Hide();
+                this.Close();
             }
             catch (Exception _e)
             {
@@ -77,6 +74,22 @@ namespace GPR5100_LevelEditor
 
             if (Btn_SyncDimensions.IsChecked == true)
                 Txt_SliceTileHeight.Text = Txt_SliceTileWidth.Text;
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            ((MainWindow)this.Owner).settingsWindow = null;
+        }
+
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+                this.DragMove();
+        }
+
+        private void Btn_CloseWindow_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

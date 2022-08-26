@@ -7,24 +7,40 @@
         mc:Ignorable="d"
         Height="610" Width="910"
         WindowStyle="None"
-        AllowsTransparency="True"
         ResizeMode="NoResize"
         Background="Transparent"
-        Loaded="Window_Loaded">
+        Closing="Window_Closing"
+        AllowsTransparency="True">
 
-    <Border Background="#CFCFCF" 
-            CornerRadius="10">
+    <Border Background="#CFCFCF"
+            CornerRadius="10"
+            MouseDown="LMBDown_MoveWindow">
 
         <Grid Width="900" Height="600"
               HorizontalAlignment="Stretch">
 
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="700"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
+            <Grid Grid.ColumnSpan="2" Grid.Row="0">
+
+                <Button x:Name="Btn_CloseApp"
+                        Width="50"
+                        Content="Close"
+                        HorizontalAlignment="Right"
+                        Click="OnCLick_CloseApplication"/>
+
+            </Grid>
+            
             <!--#region Left Control Panel-->
-            <Grid Grid.Column="0" HorizontalAlignment="Stretch">
+            <Grid Grid.Column="0" HorizontalAlignment="Stretch" Grid.Row="1">
                 <Grid.RowDefinitions>
                     <!--Logo and Name-->
                     <RowDefinition Height="50"/>
@@ -39,55 +55,82 @@
                     <Button x:Name="Btn_OpenSettings"
                             Height="50"
                             Style="{StaticResource ButtonTheme}"
-                            Content="Settings" Click="OnClick_OpenSettings"/>
+                            Content="Settings" 
+                            Click="OnClick_OpenSettings"
+                            ToolTip="Opens the settings window where you can select a tilesheet and adjust its settings!"/>
 
-                    <Rectangle x:Name="Rect_SelectedTile" 
-                               Height="100" 
-                               Fill="AntiqueWhite"/>
 
                     <Button x:Name="Btn_ClearMap" 
                             Style="{StaticResource ButtonTheme}"
                             Height="50" 
                             Content="Clear" 
-                            Click="OnClick_ClearMap"/>
+                            Click="OnClick_ClearMap"
+                            ToolTip="Erases all fields on the map"/>
 
                     <Button x:Name="Btn_SaveMap" 
                             Style="{StaticResource ButtonTheme}"
                             Height="50"  
                             Content="Save" 
-                            Click="OnClick_SaveMap"/>
+                            Click="OnClick_SaveMap"
+                            ToolTip="Saves all the data to a XML file"/>
 
                     <Button x:Name="Btn_LoadMap" 
                             Style="{StaticResource ButtonTheme}"
                             Height="50"  
                             Content="Load" 
-                            Click="OnClick_LoadMap"/>
+                            Click="OnClick_LoadMap"
+                            ToolTip="Load and import data from a XML file"/>
+
+                    <ToggleButton x:Name="Btn_Erase"
+                                  Height="50"
+                                  Content="Erase" 
+                                  Click="OnClick_Erase"/>
+
+                    <Rectangle x:Name="Rect_SelectedTile" 
+                               Height="100" 
+                               Fill="AntiqueWhite"/>
+
                 </StackPanel>
             </Grid>
             <!--#endregion-->
 
             <!--#region Map & TileSheet-->
-            <Grid Grid.Column="1" HorizontalAlignment="Stretch">
+            <Grid Grid.Column="1" HorizontalAlignment="Stretch" Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
+                    <RowDefinition Height="20"/>
                     <RowDefinition Height="200"/>
                 </Grid.RowDefinitions>
 
-                <WrapPanel x:Name="WrapPanel_Map"
-                           Height="400" Width="700"
-                           Grid.Row="0"
-                           Background="#353030" 
-                           MouseLeftButtonDown="LMBDown_Map"/>
+                <ScrollViewer x:Name="Scrl_Map"
+                              Width="800"
+                              Grid.Row="0"
+                              HorizontalScrollBarVisibility="Visible">
+                    
+                    <WrapPanel x:Name="WrapPanel_Map"
+                               Height="1000" Width="1000"
+                               Background="#353030" 
+                               MouseLeftButtonDown="LMBDown_Map"/>
+                    
+                </ScrollViewer>
 
-                <ScrollViewer x:Name="scrollViewer"
-                              Height="200" Width="700"
-                              Grid.Row="1">
+                <Slider x:Name="Sld_TileSize"
+                        Grid.Row="1"
+                        Minimum="10" Maximum="50"
+                        Value="30"
+                        Width="200"
+                        HorizontalAlignment="Right" 
+                        ValueChanged="Sld_TileSize_ValueChanged" 
+                        SmallChange="1"/>
+
+                <ScrollViewer x:Name="Scrl_Sprites"
+                              Height="200" Width="800"
+                              Grid.Row="2">
 
                     <WrapPanel x:Name="WrapPanel_Sprites"
                                MouseLeftButtonDown="LMBDown_StackSprites"/>
 
                 </ScrollViewer>
-
 
             </Grid>
             <!--#endregion-->
