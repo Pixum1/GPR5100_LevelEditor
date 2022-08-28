@@ -8,29 +8,37 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
 
-                        <Grid VerticalAlignment="Stretch"
+                        <Border BorderBrush="#ea4130" BorderThickness="1">
+                            <Grid VerticalAlignment="Stretch"
                               HorizontalAlignment="Stretch"
                               Background="{TemplateBinding Background}">
 
-                            <TextBlock Text="{TemplateBinding Property=Content}"
+                                <TextBlock Text="{TemplateBinding Property=Content}"
                                        VerticalAlignment="Center"
-                                       HorizontalAlignment="Center"/>
+                                       HorizontalAlignment="Center"
+                                       Foreground="#fbfbfb"
+                                       FontSize="15"
+                                       TextAlignment="Center"/>
 
-                        </Grid>
+                            </Grid>
+                        </Border>
+
                     </ControlTemplate>
                 </Setter.Value>
 
             </Setter>
 
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="#202020"/>
+            <Setter Property="Margin" Value="0,1,0,1"/>
 
         </Style.Setters>
 
         <Style.Triggers>
-
+            
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#182461"/>
+
+                <Setter Property="Background" Value="#181818"/>
+
             </Trigger>
 
         </Style.Triggers>

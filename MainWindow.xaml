@@ -5,138 +5,272 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GPR5100_LevelEditor"
         mc:Ignorable="d"
-        Height="610" Width="910"
+        Height="610" Width="910" 
+        MaxWidth="1920" MaxHeight="1080"
+        MinHeight="610" MinWidth="910"
         WindowStyle="None"
-        ResizeMode="NoResize"
-        Background="Transparent"
+        ResizeMode="CanResizeWithGrip"
         Closing="Window_Closing"
-        AllowsTransparency="True">
+        AllowsTransparency="True"
+        Title="Level Editor">
 
-    <Border Background="#CFCFCF"
-            CornerRadius="10"
+    <Border Background="#181818"
+            BorderBrush="#202020"
+            BorderThickness="1"
             MouseDown="LMBDown_MoveWindow">
 
-        <Grid Width="900" Height="600"
-              HorizontalAlignment="Stretch">
+        <Grid>
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="20"/>
+                <RowDefinition Height="30"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
+            <!--#region Titlebar-->
+            <Grid Background="#202020"
+                  Grid.Row="0">
 
-            <Grid Grid.ColumnSpan="2" Grid.Row="0">
+                <!--#region Minimize, Maximize and Close application buttons-->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
 
-                <Button x:Name="Btn_CloseApp"
-                        Width="50"
-                        Content="Close"
-                        HorizontalAlignment="Right"
-                        Click="OnCLick_CloseApplication"/>
+                    <Button x:Name="Btn_Minimize"
+                            Width="30"
+                            Content="―"
+                            ToolTip="Minimize the window"
+                            Style="{StaticResource ToolBarButtonTheme}" Click="OnClick_Minimize"/>
 
-            </Grid>
-            
-            <!--#region Left Control Panel-->
-            <Grid Grid.Column="0" HorizontalAlignment="Stretch" Grid.Row="1">
-                <Grid.RowDefinitions>
-                    <!--Logo and Name-->
-                    <RowDefinition Height="50"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
+                    <Button x:Name="Btn_Maximize"
+                            Width="30"
+                            Content="◻"
+                            ToolTip="Enlarge the window"
+                            Style="{StaticResource ToolBarButtonTheme}" Click="OnClick_Maximize"/>
 
-                <TextBlock Grid.Row="0"
-                           Text="Name"/>
+                    <Button x:Name="Btn_CloseApp"
+                            Width="50"
+                            Content="Close"
+                            ToolTip="Close the application"
+                            Style="{StaticResource ToolBarButtonTheme}"
+                            Click="OnCLick_CloseApplication"/>
 
-                <StackPanel Orientation="Vertical" Grid.Row="1">
+                </StackPanel>
+                <!--#endregion-->
 
-                    <Button x:Name="Btn_OpenSettings"
-                            Height="50"
-                            Style="{StaticResource ButtonTheme}"
-                            Content="Settings" 
-                            Click="OnClick_OpenSettings"
-                            ToolTip="Opens the settings window where you can select a tilesheet and adjust its settings!"/>
+                <!--#region Name, Save and Load buttons-->
+                <StackPanel Orientation="Horizontal">
 
-
-                    <Button x:Name="Btn_ClearMap" 
-                            Style="{StaticResource ButtonTheme}"
-                            Height="50" 
-                            Content="Clear" 
-                            Click="OnClick_ClearMap"
-                            ToolTip="Erases all fields on the map"/>
+                    <TextBlock Text="Level Editor"
+                               FontSize="20"
+                               TextAlignment="Center"
+                               FontStyle="Oblique"
+                               Width="150"
+                               Foreground="#f0f0f0"
+                               HorizontalAlignment="Left"/>
 
                     <Button x:Name="Btn_SaveMap" 
-                            Style="{StaticResource ButtonTheme}"
-                            Height="50"  
+                            Width="100"
+                            Style="{StaticResource ToolBarButtonTheme}"
                             Content="Save" 
                             Click="OnClick_SaveMap"
                             ToolTip="Saves all the data to a XML file"/>
 
-                    <Button x:Name="Btn_LoadMap" 
-                            Style="{StaticResource ButtonTheme}"
-                            Height="50"  
+                    <Button x:Name="Btn_LoadMap"
+                            Width="100"
+                            Style="{StaticResource ToolBarButtonTheme}"
                             Content="Load" 
                             Click="OnClick_LoadMap"
                             ToolTip="Load and import data from a XML file"/>
 
-                    <ToggleButton x:Name="Btn_Erase"
-                                  Height="50"
-                                  Content="Erase" 
-                                  Click="OnClick_Erase"/>
-
-                    <Rectangle x:Name="Rect_SelectedTile" 
-                               Height="100" 
-                               Fill="AntiqueWhite"/>
-
                 </StackPanel>
+                <!--#endregion-->
+
             </Grid>
             <!--#endregion-->
 
-            <!--#region Map & TileSheet-->
-            <Grid Grid.Column="1" HorizontalAlignment="Stretch" Grid.Row="1">
+            <!--#region Body-->
+            <Grid HorizontalAlignment="Center" Grid.Row="2">
+
                 <Grid.RowDefinitions>
                     <RowDefinition/>
+                    <RowDefinition Height="250"/>
                     <RowDefinition Height="20"/>
-                    <RowDefinition Height="200"/>
                 </Grid.RowDefinitions>
 
+                <!--#region Map Panel-->
                 <ScrollViewer x:Name="Scrl_Map"
-                              Width="800"
+                              Margin="2,2,2,2"
                               Grid.Row="0"
                               HorizontalScrollBarVisibility="Visible">
-                    
+                    <!--ToolTip="The map. &#10;If you imported a tilesheet and have selected a tile you can place those on here"-->
+
                     <WrapPanel x:Name="WrapPanel_Map"
-                               Height="1000" Width="1000"
-                               Background="#353030" 
+                               Height="2000" Width="2000"
+                               Background="#181818" 
                                MouseLeftButtonDown="LMBDown_Map"/>
-                    
+
                 </ScrollViewer>
+                <!--#endregion-->
 
-                <Slider x:Name="Sld_TileSize"
-                        Grid.Row="1"
-                        Minimum="10" Maximum="50"
-                        Value="30"
-                        Width="200"
-                        HorizontalAlignment="Right" 
-                        ValueChanged="Sld_TileSize_ValueChanged" 
-                        SmallChange="1"/>
+                <!--#region Left Popup window-->
+                <Grid Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                      Margin="10,0,0,30">
 
+                    <!--#region Options and Selected Tile panel-->
+                    <Grid x:Name="Grid_Options">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Rectangle x:Name="Rect_SelectedTile" Grid.Row="1"
+                                   Height="100" Width="100"
+                                   Stroke="#ea4130"
+                                   ToolTip="Preview of the currently selected tile"
+                                   StrokeThickness="1"
+                                   Fill="#202020"/>
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="0"
+                                Height="30">
+
+                            <ToggleButton x:Name="Btn_Erase"
+                                          Style="{StaticResource ToggleButtonTheme}"
+                                          Content="Erase"
+                                          Width="50"
+                                          ToolTip="Activate to erase tiles while drawing on the map"
+                                          Click="OnClick_Erase"/>
+
+                            <Button x:Name="Btn_ClearMap"
+                                    Style="{StaticResource ButtonTheme}"
+                                    Content="Clear" 
+                                    Width="50"
+                                    Click="OnClick_ClearMap"
+                                    ToolTip="Erases all tiles on the map"/>
+
+                        </StackPanel>
+
+                    </Grid>
+                    <!--#endregion-->
+
+                    <Button x:Name="Btn_HideUI" Grid.Row="1"
+                            Content="X"
+                            Style="{StaticResource ButtonTheme}"
+                            Height="20" Width="20"
+                            ToolTip="Toggle the options window"
+                            VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                            Margin="-10" Click="OnClick_HideUI"/>
+
+                </Grid>
+                <!--#endregion-->
+
+                <!--#region Right Popup window-->
+                <Grid Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                      Margin="0,0,30,30">
+
+                    <!--#region Settings panel-->
+                    <Grid x:Name="Grid_Settings">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Button x:Name="Btn_SelectTilesheet"
+                            Height="50"
+                            Grid.Row="0"
+                            Style="{StaticResource ButtonTheme}"
+                            Content="Select TileSheet"
+                                ToolTip="Select a tilesheet file"
+                            Click="OnClick_SelectTilesheet"/>
+
+                        <!--#region Width and height settings-->
+                        <StackPanel Grid.Row="1" Orientation="Horizontal">
+
+                            <TextBox x:Name="Txt_SliceTileWidth"
+                                     Height="50" Width="50"
+                                     Text="16"
+                                     FontSize="15"
+                                     ToolTip="The width of each tile in the selected tilesheet file"
+                                     Foreground="#f0f0f0"
+                                     Background="#202020"
+                                     TextAlignment="Center" 
+                                     VerticalContentAlignment="Center" 
+                                     TextChanged="Txt_SliceTileWidth_TextChanged"/>
+
+                            <ToggleButton x:Name="Btn_SyncDimensions"
+                                          Height="50" Width="50"
+                                          Content="Sync" 
+                                          ToolTip="Activate to sync the tiles width and height"
+                                          Style="{StaticResource ToggleButtonTheme}"
+                                          Checked="Checked_SyncDimension"
+                                          Unchecked="Unchecked_SyncDimensions"/>
+
+                            <TextBox x:Name="Txt_SliceTileHeight"
+                                     Height="50" Width="50"
+                                     Background="#202020"
+                                     FontSize="15"
+                                     ToolTip="The height of each tile in the selected tilesheet file"
+                                     Foreground="#f0f0f0"
+                                     Text="16"
+                                     TextAlignment="Center" 
+                                     VerticalContentAlignment="Center"/>
+
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <Button x:Name="Btn_SliceTileSheet" 
+                                Content="Slice Tilesheet" 
+                                Style="{StaticResource ButtonTheme}"
+                                Height="50" 
+                                Grid.Row="2"
+                                ToolTip="Slice the selected tilesheet file with the specified dimensions"
+                                Click="OnClick_SliceTilesheet"/>
+
+                    </Grid>
+                    <!--#endregion-->
+
+                    <Button x:Name="Btn_HideSettings" Grid.Row="2"
+                            Content="X"
+                            ToolTip="Toggle the settings window"
+                            Style="{StaticResource ButtonTheme}"
+                            Height="20" Width="20"
+                            VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                            Margin="-10" Click="OnClick_HideSettings"/>
+
+                </Grid>
+                <!--#endregion-->
+
+                <!--#region SpriteList panel-->
                 <ScrollViewer x:Name="Scrl_Sprites"
-                              Height="200" Width="800"
-                              Grid.Row="2">
+                              Grid.Row="1">
+                    <!--ToolTip="The SpriteList. The sliced tiles from the selected tilesheet will be listed here. &#10;You can click on any tile to select it"-->
 
                     <WrapPanel x:Name="WrapPanel_Sprites"
                                MouseLeftButtonDown="LMBDown_StackSprites"/>
 
                 </ScrollViewer>
+                <!--#endregion-->
+
+                <!--#region TileSize area-->
+                <Grid Grid.Row="2">
+
+                    <Slider x:Name="Sld_TileSize"
+                            Grid.Column="1"
+                            ToolTip="Resize the Spritelists tiles"
+                            Minimum="10" Maximum="50"
+                            Value="30"
+                            Width="200"
+                            HorizontalAlignment="Right" 
+                            ValueChanged="Sld_TileSize_ValueChanged" 
+                            SmallChange="1"/>
+
+                </Grid>
+                <!--#endregion-->
 
             </Grid>
             <!--#endregion-->
-
+            
         </Grid>
-
     </Border>
 </Window>
     

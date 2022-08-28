@@ -9,8 +9,8 @@ namespace GPR5100_LevelEditor
     [System.Serializable]
     public class MapSave
     {
-        public int[] Map;
-        public string TileSheetPath;
+        public int[] Map = new int[0];
+        public string TileSheetPath = "";
         public int Height;
         public int Width;
 

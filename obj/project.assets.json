@@ -8,23 +8,23 @@
     "net6.0-windows7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\User\\.nuget\\packages\\": {},
+    "C:\\Users\\knauf\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\GamesPrograming\\GPR5100_LevelEditor\\GPR5100_LevelEditor.csproj",
+      "projectUniqueName": "D:\\Game Making\\GPR5100_LevelEditor\\GPR5100_LevelEditor.csproj",
       "projectName": "GPR5100_LevelEditor",
-      "projectPath": "C:\\GamesPrograming\\GPR5100_LevelEditor\\GPR5100_LevelEditor.csproj",
-      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "C:\\GamesPrograming\\GPR5100_LevelEditor\\obj\\",
+      "projectPath": "D:\\Game Making\\GPR5100_LevelEditor\\GPR5100_LevelEditor.csproj",
+      "packagesPath": "C:\\Users\\knauf\\.nuget\\packages\\",
+      "outputPath": "D:\\Game Making\\GPR5100_LevelEditor\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\knauf\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -68,7 +68,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }

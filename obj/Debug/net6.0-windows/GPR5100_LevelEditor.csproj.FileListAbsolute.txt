@@ -42,9 +42,9 @@ D:\Game Making\GPR5100_LevelEditor\obj\Debug\net6.0-windows\GPR5100_LevelEditor.
 D:\Game Making\GPR5100_LevelEditor\obj\Debug\net6.0-windows\GPR5100_LevelEditor.genruntimeconfig.cache
 D:\Game Making\GPR5100_LevelEditor\obj\Debug\net6.0-windows\Theme\ButtonTheme.baml
 D:\Game Making\GPR5100_LevelEditor\obj\Debug\net6.0-windows\App.baml
-D:\Game Making\GPR5100_LevelEditor\obj\Debug\net6.0-windows\SettingsWindow.g.cs
-D:\Game Making\GPR5100_LevelEditor\obj\Debug\net6.0-windows\SettingsWindow.baml
 C:\GamesPrograming\GPR5100_LevelEditor\obj\Debug\net6.0-windows\Theme\ButtonTheme.baml
 C:\GamesPrograming\GPR5100_LevelEditor\obj\Debug\net6.0-windows\SettingsWindow.g.cs
 C:\GamesPrograming\GPR5100_LevelEditor\obj\Debug\net6.0-windows\App.baml
 C:\GamesPrograming\GPR5100_LevelEditor\obj\Debug\net6.0-windows\SettingsWindow.baml
+D:\Game Making\GPR5100_LevelEditor\obj\Debug\net6.0-windows\Theme\ToggleButtonTheme.baml
+D:\Game Making\GPR5100_LevelEditor\obj\Debug\net6.0-windows\Theme\ToolBarButtonTheme.baml

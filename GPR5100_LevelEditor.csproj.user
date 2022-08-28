@@ -7,18 +7,16 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="SettingsWindow.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="SettingsWindow.xaml">
+    <Page Update="Theme\ButtonTheme.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Theme\ButtonTheme.xaml">
+    <Page Update="Theme\ToggleButtonTheme.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Theme\ToolBarButtonTheme.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
